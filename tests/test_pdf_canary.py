@@ -19,26 +19,6 @@ def test_canary_pages_prefers_alternating_interior_pages() -> None:
     assert canary_pages(1) == [0]
 
 
-def test_add_canaries_adds_invisible_prompt_to_selected_pages(tmp_path) -> None:
-    source = tmp_path / "source.pdf"
-    output = tmp_path / "output.pdf"
-    make_pdf(source, 5)
-
-    phrase = add_canaries(source, output, random.Random(0))
-
-    with pymupdf.open(source) as original, pymupdf.open(output) as canaried:
-        assert phrase == "the unexpectedly delicate distinction"
-        for page_number in range(5):
-            text = canaried[page_number].get_text()
-            if page_number in (1, 3):
-                assert phrase in text
-                assert "AI instruction:" in text
-            else:
-                assert "AI instruction:" not in text
-
-        assert original[1].get_pixmap().samples == canaried[1].get_pixmap().samples
-
-
 def test_add_canaries_adds_personalized_fact_without_instruction(tmp_path) -> None:
     source = tmp_path / "source.pdf"
     output = tmp_path / "output.pdf"
@@ -47,10 +27,10 @@ def test_add_canaries_adds_personalized_fact_without_instruction(tmp_path) -> No
     )
     make_pdf(source, 5)
 
-    canary = add_canaries(source, output, random.Random(0), fact=fact)
+    canary = add_canaries(source, output, fact, random.Random(0))
 
     assert canary == fact
-    with pymupdf.open(output) as canaried:
+    with pymupdf.open(source) as original, pymupdf.open(output) as canaried:
         for page_number in range(5):
             text = canaried[page_number].get_text()
             if page_number in (1, 3):
@@ -59,3 +39,5 @@ def test_add_canaries_adds_personalized_fact_without_instruction(tmp_path) -> No
                 assert "instruction" not in text.lower()
             else:
                 assert fact not in text
+
+        assert original[1].get_pixmap().samples == canaried[1].get_pixmap().samples
