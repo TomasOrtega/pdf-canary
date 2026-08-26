@@ -44,11 +44,19 @@ function updateCanaryType() {
   const personalized = personalizedFactSelected();
   factFields.hidden = !personalized;
   factInput.required = personalized;
+  factInput.setCustomValidity("");
 }
 
 for (const input of canaryTypeInputs) {
   input.addEventListener("change", updateCanaryType);
 }
+
+factInput.addEventListener("input", () => {
+  const message = factInput.value.trim() ? "" : "Enter a slightly wrong fact.";
+  factInput.setCustomValidity(message);
+});
+
+updateCanaryType();
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
