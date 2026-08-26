@@ -1,6 +1,6 @@
 # PDF Canary
 
-A tiny website and command-line tool that add invisible AI canary prompts to PDFs.
+Website and command-line tool that add invisible AI canary prompts to PDFs.
 
 The canary is inserted into the PDF text layer on interior pages. It asks an AI system using copied text from the PDF to include a randomly generated phrase in its response. The PDF looks unchanged when rendered normally.
 
@@ -32,7 +32,3 @@ uv sync
 uv run prek -a --quiet
 uv run pytest
 ```
-
-## Note
-
-A matching phrase is evidence that the PDF text may have been supplied to an AI system, not conclusive proof by itself. PDF extraction and model behavior can vary.
