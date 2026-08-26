@@ -40,21 +40,23 @@ function personalizedFactSelected() {
   return document.querySelector('[name="canary-type"]:checked').value === "fact";
 }
 
+function validateFact() {
+  const invalid = personalizedFactSelected() && !factInput.value.trim();
+  factInput.setCustomValidity(invalid ? "Enter a slightly wrong fact." : "");
+}
+
 function updateCanaryType() {
   const personalized = personalizedFactSelected();
   factFields.hidden = !personalized;
   factInput.required = personalized;
-  factInput.setCustomValidity("");
+  validateFact();
 }
 
 for (const input of canaryTypeInputs) {
   input.addEventListener("change", updateCanaryType);
 }
 
-factInput.addEventListener("input", () => {
-  const message = factInput.value.trim() ? "" : "Enter a slightly wrong fact.";
-  factInput.setCustomValidity(message);
-});
+factInput.addEventListener("input", validateFact);
 
 updateCanaryType();
 
