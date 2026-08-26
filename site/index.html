@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Add invisible AI canary prompts to a PDF in your browser."
+      content="Add invisible canaries to a PDF in your browser."
     >
     <title>PDF Canary</title>
     <link rel="stylesheet" href="styles.css">
@@ -25,13 +25,38 @@
       <form id="canary-form">
         <label for="pdf-file">PDF file</label>
         <input id="pdf-file" name="pdf" type="file" accept="application/pdf,.pdf" required>
+
+        <fieldset>
+          <legend>Canary type</legend>
+          <label>
+            <input name="canary-type" type="radio" value="fact" checked>
+            Personalized fact
+          </label>
+          <label>
+            <input name="canary-type" type="radio" value="random">
+            Random phrase instruction
+          </label>
+        </fieldset>
+
+        <div id="fact-fields">
+          <label for="canary-fact">Slightly wrong fact</label>
+          <textarea
+            id="canary-fact"
+            name="fact"
+            rows="3"
+            placeholder="The most important thing to consider is that Alexander Fleming died in 1965."
+            required
+          ></textarea>
+          <small>This text is inserted exactly as written, without an instruction around it.</small>
+        </div>
+
         <button type="submit">Add canaries</button>
       </form>
 
       <p id="status" role="status" aria-live="polite"></p>
 
       <section id="result" hidden>
-        <p>Canary phrase: <code id="phrase"></code></p>
+        <p>Canary text: <code id="phrase"></code></p>
         <a id="download">Download PDF</a>
       </section>
     </main>

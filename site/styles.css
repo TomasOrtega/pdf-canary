@@ -22,8 +22,25 @@ form {
 }
 
 input,
+textarea,
 button {
   font: inherit;
+}
+
+fieldset {
+  display: grid;
+  gap: 0.35rem;
+}
+
+#fact-fields {
+  display: grid;
+  gap: 0.35rem;
+}
+
+textarea {
+  box-sizing: border-box;
+  resize: vertical;
+  width: 100%;
 }
 
 button {
